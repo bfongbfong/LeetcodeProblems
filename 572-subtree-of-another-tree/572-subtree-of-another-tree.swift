@@ -16,11 +16,7 @@
 class Solution {
     func isSubtree(_ s: TreeNode?, _ t: TreeNode?) -> Bool {
         guard let s = s, let t = t else { return false }
-        if s.val == t.val {
-            return isSameTree(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t)
-        } else {
-            return isSubtree(s.left, t) || isSubtree(s.right, t)
-        }
+        return isSameTree(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t)
     }
 
     func isSameTree(_ l: TreeNode?, _ r: TreeNode?) -> Bool {
