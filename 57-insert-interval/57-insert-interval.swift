@@ -31,15 +31,15 @@ class Solution {
 
         var newInterval = newInterval
         if intervals.isEmpty { return [newInterval] }
-        for interval in intervals {
+        for (i, interval) in intervals.enumerated() {
             if newInterval.isEmpty {
                 answer.append(interval)
             }
             // if newInterval completely goes first, then interval
             else if newInterval[1] < interval[0] {
                 answer.append(newInterval)
-                answer.append(interval)
-                newInterval.removeAll()
+                answer.append(contentsOf: Array(intervals[i..<intervals.count]))
+                return answer
             } 
             // interval completely goes first
             else if interval[1] < newInterval[0] {
@@ -50,9 +50,8 @@ class Solution {
                 newInterval = [interval[0], max(newInterval[1], interval[1])]
             }
         }
-        if !newInterval.isEmpty {
-            answer.append(newInterval)
-        }
+
+        answer.append(newInterval)
         return answer
     }
 }
