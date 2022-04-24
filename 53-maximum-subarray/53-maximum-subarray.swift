@@ -1,19 +1,13 @@
 class Solution {
     func maxSubArray(_ nums: [Int]) -> Int {
         if nums.count == 1 { return nums[0] }
-        var left = 0
-        var right = 1
-        var answer = nums[0]
-        var current = nums[0]
-        while right < nums.count {
-            if current < 0 {
-                left = right
-                current = nums[right]
-            } else {
-                current += nums[right]   
+        var answer = Int.min
+        var mostRecentTail = nums[0]
+        for i in 0..<nums.count {
+            if i != 0 {
+                mostRecentTail = max(nums[i], mostRecentTail + nums[i])
             }
-            answer = max(answer, current)
-            right += 1
+            answer = max(answer, mostRecentTail)
         }
         return answer
     }
