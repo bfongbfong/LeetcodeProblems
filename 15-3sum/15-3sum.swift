@@ -1,28 +1,31 @@
 class Solution {
+    // -4 -1 -1 0 1 2
+    // 0 0 0 0 
+    
     func threeSum(_ nums: [Int]) -> [[Int]] {
-        guard nums.count >= 3 else { return [[Int]]() }
-        let sorted = nums.sorted()
+        let nums = nums.sorted()
         var answer = [[Int]]()
-
-        for i in 0..<sorted.count {
-            if i != 0, sorted[i] == sorted[i - 1] { continue }
-            var leftI = i + 1
-            var rightI = sorted.count - 1
+        for i in 0..<nums.count {
+            if i - 1 >= 0 && nums[i - 1] == nums[i] { continue }
+            if i == nums.count - 2 { break }
+            var leftI = i + 1 
+            var rightI = nums.count - 1
             while leftI < rightI {
-                let sum = sorted[leftI] + sorted[rightI] + sorted[i]
-                if sum == 0 {
-                    answer.append([sorted[leftI], sorted[rightI], sorted[i]])
-                    leftI += 1
-                    while sorted[leftI] == sorted[leftI - 1] && leftI < rightI {
+                if nums[leftI] + nums[rightI] + nums[i] == 0 {
+                    answer.append([nums[i], nums[leftI], nums[rightI]])
+                    leftI += 1 
+                    while nums[leftI] == nums[leftI - 1] && leftI < rightI {
                         leftI += 1
                     }
-                } else if sum < 0 {
-                    leftI += 1
-                } else {
+                } else if nums[leftI] + nums[rightI] + nums[i] > 0 {
                     rightI -= 1
+                } else {
+                    leftI += 1
                 }
             }
         }
+
         return answer
     }
+
 }
