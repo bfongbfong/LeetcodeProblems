@@ -1,35 +1,49 @@
 class Solution {
     func climbStairs(_ n: Int) -> Int {
-        var dp = [Int: Int]()
-        func helper(_ n: Int) -> Int {
-            if let answer = dp[n] { return answer }
-            if n == 1 {
-                dp[n] = 1
-                return 1
-            }
-            else if n == 2 {
-                dp[n] = 2
-                return 2
+        /*
+        1 - 1
+        2 - 2
+        3 - 3
+        4 - 5
+            1 1 1 1 
+            1 2 1
+            2 1 1
+            1 1 2
+            2 2
+        5 - 8
+            1 1 1 1 1 
+            2   1 1 1 
+            1 2   1 1
+            1 1 2.  1
+            1 1 1 2
+            2   2.  1
+            2.  1  2
+            1 2   2
+        
+        
+        
+        */
+        var memo = [Int: Int]()
+        func helper(_ input: Int) -> Int {
+            if input == n { return 1 }
+            if input > n { return 0 }
+            var first = 0
+            if memo[input + 1] != nil {
+                first = memo[input + 1]!
+            } else {
+                first = helper(input + 1)
             }
 
-            let oneStep: Int
-            if let existingOneStep = dp[n - 1] {
-                oneStep = existingOneStep
+            var second = 0
+            if memo[input + 2] != nil {
+                second = memo[input + 2]!
             } else {
-                oneStep = helper(n - 1)
-                dp[n - 1] = oneStep
-            }
-    
-            let twoStep: Int
-            if let existingTwoStep = dp[n - 2] {
-                twoStep = existingTwoStep
-            } else {
-                twoStep = helper(n - 2)
-                dp[n - 2] = twoStep
+                second = helper(input + 2)
             }
 
-            return oneStep + twoStep
+            memo[input] = first + second
+            return memo[input]!
         }
-        return helper(n)
+        return helper(0)
     }
 }
