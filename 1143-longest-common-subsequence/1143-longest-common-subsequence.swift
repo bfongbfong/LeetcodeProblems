@@ -12,6 +12,7 @@ class Solution {
         ace
         */
         var memo = Array(repeating: Array(repeating: -1, count: text2.count), count: text1.count)
+        
         func helper(_ index1: Int, _ index2: Int) -> Int {
             guard memo[index1][index2] == -1 else { return memo[index1][index2] }
             if text1[index1] == text2[index2] {
