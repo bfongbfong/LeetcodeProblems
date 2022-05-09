@@ -4,40 +4,24 @@ class Solution {
         var text1 = Array(text1)
         var text2 = Array(text2)
         /*
-        abc
-        bcd 
-        answer = bc
+        abec
+        brec
+
         
         fbcde
         ace
         */
-        var memo = Array(repeating: Array(repeating: -1, count: text2.count), count: text1.count)
-        
-        func helper(_ index1: Int, _ index2: Int) -> Int {
-            guard memo[index1][index2] == -1 else { return memo[index1][index2] }
-            if text1[index1] == text2[index2] {
-                if index1 + 1 < text1.count && index2 + 1 < text2.count {
-                    let answer = helper(index1 + 1, index2 + 1) + 1
-                    memo[index1][index2] = answer
-                   return answer
+        var dp = Array(repeating: Array(repeating: 0, count: text2.count + 1), count: text1.count + 1)
+        for row in stride(from: text1.count - 1, through: 0, by: -1) {
+            for col in stride(from: text2.count - 1, through: 0, by: -1) {
+                if text1[row] == text2[col] {
+                    dp[row][col] = dp[row + 1][col + 1] + 1
                 } else {
-                    return 1
+                    dp[row][col] = max(dp[row + 1][col], dp[row][col + 1])
                 }
-            } else {
-                var one = 0
-                var two = 0
-                if index1 + 1 < text1.count {
-                    one = helper(index1 + 1, index2)
-                }
-                if index2 + 1 < text2.count {
-                    two = helper(index1, index2 + 1)
-                }
-                let answer = max(one, two)
-                memo[index1][index2] = answer
-                return answer
             }
         }
 
-        return helper(0, 0)
+        return dp[0][0]
     }
 }
