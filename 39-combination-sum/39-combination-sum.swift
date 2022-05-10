@@ -11,6 +11,7 @@ class Solution {
                 return
             } else if sum > target {
                 // noop
+                return
             } else {
                 // keep going further down 
                 var nums = currentNums
