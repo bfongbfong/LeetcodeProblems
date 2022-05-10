@@ -1,26 +1,26 @@
 class Solution {
     func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+        /*
+        aaaa aaa
+              ^
+        leetcode
+           ^
+        */
         let s = Array(s)
         let wordDict = Set(wordDict)
-        var memo: [Bool?] = Array(repeating: nil, count: s.count)
+        var dp: [Bool] = Array(repeating: false, count: s.count + 1)
+        dp[s.count] = true
 
-        func helper(_ leftI: Int) -> Bool {
-            guard memo[leftI] == nil else { return memo[leftI]! }
+        for leftI in stride(from: s.count - 1, through: 0, by: -1) {
             for rightI in leftI..<s.count {
                 let curr = Array(s[leftI...rightI])
+                print(curr)
                 if wordDict.contains(String(curr)) {
-                    if rightI == s.count - 1 {
-                        return true 
-                    }
-                    else if helper(rightI + 1) {
-                        memo[leftI] = true
-                        return true
-                    }
-                }
+                    dp[leftI] = dp[leftI + curr.count]
+                    if dp[leftI] { break }
+                }   
             }
-            memo[leftI] = false
-            return false
         }
-        return helper(0)
+        return dp[0]
     }
 }
