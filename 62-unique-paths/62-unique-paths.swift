@@ -1,21 +1,16 @@
 class Solution {
     func uniquePaths(_ m: Int, _ n: Int) -> Int {
-        var memo: [[Int?]] = Array(repeating: Array(repeating: nil, count: n), count: m)
-        func dfs(_ row: Int, _ col: Int) -> Int {
-            if memo[row][col] != nil { return memo[row][col]! }
-            var result = 0
-            if row == m - 1 && col == n - 1 {
-                return 1
+        var dp: [[Int]] = Array(repeating: Array(repeating: 0, count: n + 1), count: m + 1)
+        dp[m - 1][n - 1] = 1
+        for row in stride(from: m - 1, through: 0, by: -1) {
+            for col in stride(from: n - 1, through: 0, by: -1) {
+                if row == m - 1 && col == n - 1 {
+                    dp[row][col] = 1
+                } else {
+                    dp[row][col] = dp[row + 1][col] + dp[row][col + 1]
+                }
             }
-            if row + 1 < m {
-                result += dfs(row + 1, col)
-            }
-            if col + 1 < n {
-                result += dfs(row, col + 1)
-            }
-            memo[row][col] = result
-            return result
         }
-        return dfs(0, 0)
+        return dp[0][0]
     }
 }
