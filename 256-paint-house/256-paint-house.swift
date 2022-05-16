@@ -7,28 +7,18 @@ class Solution {
         2       14      3       19
         */
 
-        var memo = Array(repeating: Array(repeating: Int.max, count: costs[0].count), count: costs.count)
-        // each spot in memo represents the smallest sum itself + its children.
-        func helper(_ houseI: Int, _ adjacentColor: Int) -> Int {
-            if houseI >= costs.count {
-                return 0
-            }
-            var thisAnswer = Int.max
+        var dp = Array(repeating: Array(repeating: Int.max, count: costs[0].count), count: costs.count)
+        dp.append([0, 0, 0])
+        for houseI in stride(from: costs.count - 1, through: 0, by: -1) {
             for color in 0..<costs[houseI].count {
-                if adjacentColor == color { continue }
-                if memo[houseI][color] != Int.max { 
-                    thisAnswer = min(thisAnswer, memo[houseI][color])
-                    continue
+                var minChildrenSum = Int.max
+                for nextColor in 0..<dp[houseI + 1].count {
+                    if nextColor == color { continue }
+                    minChildrenSum = min(minChildrenSum, dp[houseI + 1][nextColor])
                 }
-                let childrenMinSum = helper(houseI + 1, color)
-                let minSum = childrenMinSum + costs[houseI][color]
-                print(costs[houseI][color], childrenMinSum, minSum)
-                memo[houseI][color] = minSum
-                thisAnswer = min(thisAnswer, minSum)
-                print("-- \(thisAnswer)")
+                dp[houseI][color] = minChildrenSum + costs[houseI][color]
             }
-            return thisAnswer
         }
-        return helper(0, -1)
+        return min(min(dp[0][0], dp[0][1]), dp[0][2])
     }
 }
