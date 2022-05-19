@@ -1,19 +1,20 @@
 class Solution {
     func maxArea(_ height: [Int]) -> Int {
-        var leftI = 0
-        var rightI = height.count - 1
+        var left = 0
+        var right = height.count - 1
         var answer = 0
-        while leftI < rightI {
-            let left = height[leftI]
-            let right = height[rightI]
-            let width = rightI - leftI
-            let height = min(left, right)
-            let area = width * height
+        while left < right {
+            let width = right - left
+            let thisHeight = min(height[left], height[right])
+            let area = width * thisHeight
             answer = max(answer, area)
-            if left < right {
-                leftI += 1
+            if height[left] < height[right] {
+                left += 1
+            } else if height[right] < height[left] {
+                right -= 1
             } else {
-                rightI -= 1
+                left += 1
+                right -= 1
             }
         }
         return answer
