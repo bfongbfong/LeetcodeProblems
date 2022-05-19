@@ -10,10 +10,7 @@ class Solution {
             answer = max(answer, area)
             if height[left] < height[right] {
                 left += 1
-            } else if height[right] < height[left] {
-                right -= 1
             } else {
-                left += 1
                 right -= 1
             }
         }
