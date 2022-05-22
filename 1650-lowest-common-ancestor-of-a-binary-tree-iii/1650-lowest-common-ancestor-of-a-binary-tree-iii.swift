@@ -23,7 +23,7 @@ class Solution {
             if currP === currQ {
                 return currQ
             }
-            if currQ != nil && values.contains(currQ!.val) {
+            else if currQ != nil && values.contains(currQ!.val) {
                 return currQ
             } 
             if currP != nil && values.contains(currP!.val) {
