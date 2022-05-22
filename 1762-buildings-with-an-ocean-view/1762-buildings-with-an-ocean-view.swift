@@ -6,12 +6,12 @@ class Solution {
         var answer = [heights.count - 1]
         for i in stride(from: heights.count - 2, through: 0, by: -1) {
             if dp[i + 1] < heights[i] {
-                answer.insert(i, at: 0)
+                answer.append(i)
                 dp[i] = heights[i]
             } else {
                 dp[i] = dp[i + 1]
             }
         }
-        return answer
+        return answer.reversed()
     }
 }
