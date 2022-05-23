@@ -3,24 +3,26 @@ class Solution {
         var answer = [[Int]]()
         var candidates = candidates.sorted()
         // used is a set of indexes
-        func helper(_ i: Int, _ target: Int, _ curr: [Int]) {
-            var curr = curr
-            if target == 0 {
+        func helper(_ i: Int, _ currSum: Int, _ curr: [Int]) {
+            if currSum == target {
                 answer.append(curr)
                 return
-            } else if target < 0 { 
+            } else if currSum > target { 
                 return 
             }
-            var prev = -1
-            for j in i..<candidates.count {
-                if candidates[j] == prev { continue }
-                curr.append(candidates[j])
-                helper(j + 1, target - candidates[j], curr)
-                curr.removeLast()
-                prev = candidates[j]
+            if i >= candidates.count { return }
+            var nextI = i + 1
+            while nextI < candidates.count && candidates[nextI] == candidates[i] {
+                nextI += 1
             }
+            helper(nextI, currSum, curr)
+            var currSum = currSum
+            var curr = curr
+            currSum += candidates[i]
+            curr.append(candidates[i])
+            helper(i + 1, currSum, curr)  
         }
-        helper(0, target, [])
+        helper(0, 0, [])
         return answer
     }
 }
