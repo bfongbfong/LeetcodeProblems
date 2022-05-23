@@ -1,16 +1,24 @@
 
 class SparseVector {
     
-    var data: [Int]
+    var data: [Int: Int]
+    // index: value (that is not zero)
     init(_ nums: [Int]) {
-        data = nums
+        data = [:]
+        for i in 0..<nums.count {
+            if nums[i] != 0 {
+                data[i] = nums[i]
+            }
+        }
     }
 
     // Return the dotProduct of two sparse vectors
     func dotProduct(_ vec: SparseVector) -> Int {
         var prod = 0
-        for i in 0..<data.count {
-            prod += (data[i] * vec.data[i])
+        for (key, val) in data {
+            if let vecValue = vec.data[key] {
+                prod += (vecValue * val)
+            }
         }
         return prod
     }
