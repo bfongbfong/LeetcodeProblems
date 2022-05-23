@@ -7,6 +7,7 @@ class Solution {
             var curr = curr
             if target == 0 {
                 answer.append(curr)
+                return
             } else if target < 0 { 
                 return 
             }
